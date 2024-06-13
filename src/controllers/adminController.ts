@@ -4,7 +4,7 @@ import JWT from 'jsonwebtoken';
 import { tokenVerify } from "../helpers/functions/tokenVerify";
 import { catchError } from "../helpers/functions/catchError";
 
-export const getAllStatuses = async (req: Request, res: Response) => {
+export const getAllStatuses = async (req: Request, res: Response) => { //Cria a função getAllStatuses
     try {
         const adminToken = tokenVerify(req);
 
