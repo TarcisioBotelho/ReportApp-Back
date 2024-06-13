@@ -1,0 +1,43 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model user {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(255)
+  email     String   @db.VarChar(255)
+  password  String   @db.VarChar(255)
+  isAdmin   Boolean  @default(false)
+  report    report[]
+}
+
+model report {
+  id            Int     @id @default(autoincrement())
+  id_user       Int?
+  title         String  @db.VarChar(255)
+  type_id       Int
+  description   String  @db.VarChar(1000)
+  image         String? @db.VarChar(255)
+  location      String  @db.VarChar(255)
+  status_id     Int
+  user          user?   @relation(fields: [id_user], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  status        status  @relation(fields: [status_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  type          type    @relation(fields: [type_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model status {
+  id      Int       @id @default(autoincrement())
+  name    String    @db.VarChar(100)
+  report  report[]
+}
+
+model type {
+  id      Int       @id @default(autoincrement())
+  name    String    @db.VarChar(100)
+  report  report[]
+}
